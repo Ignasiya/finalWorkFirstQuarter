@@ -4,7 +4,8 @@ using static System.Console;
 Clear();
 string[] primaryText = InputText($"Введите текст и нажмите Enter: ");
 string[] result = ResultText(primaryText, $"Введите необходимую длину символов: ");
-WriteLine($"[{String.Join(" ", result)}]");
+Write($"[{String.Join(" ", primaryText)}]");
+Write($" -> [{String.Join(" ", result)}]");
 
 string[] InputText(string text)
 {
@@ -13,23 +14,29 @@ string[] InputText(string text)
     return arrayText;
 }
 
-string[] ResultText(string[] array, string text)
+int WordCount(string[] oldText, int size)
+{
+    int count = 0;
+    for (int i = 0; i < oldText.Length; i++)
+    {
+        if (oldText[i].Length <= size) count++;
+    }
+    return count;
+}
+
+string[] ResultText(string[] oldText, string text)
 {
     Write(text);
-    int size = int.Parse(Console.ReadLine());
-    int count = 0;
-    for (int i = 0; i < array.Length; i++)
+    int sizeWord = int.Parse(Console.ReadLine());
+    int sizeNewText = WordCount(oldText, sizeWord);
+    string[] newText = new string[sizeNewText];
+    for (int i = 0, j = 0; i < oldText.Length; i++)
     {
-        if (array[i].Length < size) count++;
-    }
-    string[] arrayText = new string[count];
-    for (int i = 0, j = 0; i < array.Length; i++)
-    {
-        if (array[i].Length < size)
+        if (oldText[i].Length <= sizeWord)
         {
-            arrayText[j] = array[i];
-            j++;
+            newText[j] = oldText[i];
+            j++;            
         }
     }
-    return arrayText;
+    return newText;
 }
